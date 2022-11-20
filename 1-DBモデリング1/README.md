@@ -26,8 +26,18 @@
 # 課題4 
 * mac内でdockerを用いて仮のSQLサーバを建ててみる。
 * [参考記事](https://blog.interfamilia.co.jp/2022/07/06/MySQL-%E6%A4%9C%E8%A8%BC%E7%94%A8-Docker-%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6-SQL-%E3%81%AE%E7%B7%B4%E7%BF%92%E3%82%92%E3%81%97%E3%82%88%E3%81%86/)
+* [参考リポジトリ](https://github.com/interfamilia/testing-mysql-docker)
 
 ## 手順
+```
+$ docker-compose up -d
+# コンテナに潜る
+$ docker exec -it testing-mysql /bin/b
+ash
+
+# 
+$ mysql -u root -p
+```
 
 
 
