@@ -10,7 +10,7 @@ CREATE TABLE `commerce`.`users` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `full_name` varchar(255),
   `created_at` timestamp,
-  `tel_number` varchar(255)
+  `tel_number` string
 );
 
 CREATE TABLE `commerce`.`ordered_items` (
@@ -33,13 +33,13 @@ CREATE TABLE `commerce`.`items` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `category_id` int,
   `created_at` timestamp,
-  `item_name` varchar(255),
-  `price` int
+  `item_name` string,
+  `price` integer64
 );
 
 CREATE TABLE `commerce`.`categories` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT "null",
+  `name` string DEFAULT "null",
   `created_at` timestamp
 );
 

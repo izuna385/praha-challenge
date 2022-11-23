@@ -29,6 +29,7 @@
 * [参考リポジトリ](https://github.com/interfamilia/testing-mysql-docker)
 
 ## 手順
+### コンテナ作成
 ```
 $ docker-compose up -d
 # コンテナに潜る
@@ -36,7 +37,20 @@ $ docker exec -it testing-mysql /bin/bash
 
 # 
 $ mysql -u root -p
+$ mysql> show databases;
+$ mysql> use commerce;
+
+$ mysql> show tables;
++--------------------+
+| Tables_in_commerce |
++--------------------+
+| categories         |
+| items              |
+| order_status       |
+| ordered_items      |
+| orders             |
+| users              |
++--------------------+
+6 rows in set (0.00 sec)
 ```
-
-
-
+### テーブル作成
