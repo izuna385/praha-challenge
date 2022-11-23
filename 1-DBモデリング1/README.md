@@ -32,8 +32,7 @@
 ```
 $ docker-compose up -d
 # コンテナに潜る
-$ docker exec -it testing-mysql /bin/b
-ash
+$ docker exec -it testing-mysql /bin/bash
 
 # 
 $ mysql -u root -p
