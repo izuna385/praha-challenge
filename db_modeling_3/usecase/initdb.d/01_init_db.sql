@@ -1,3 +1,4 @@
+
 CREATE SCHEMA `airtable`;
 
 CREATE TABLE `airtable`.`users` (
@@ -15,18 +16,18 @@ CREATE TABLE `airtable`.`documents` (
 
 CREATE TABLE `airtable`.`document_relations` (
   `parent_id` int,
-  `chanel_id` int,
-  PRIMARY KEY (`parent_id`, `chanel_id`)
+  `child_id` int,
+  PRIMARY KEY (`parent_id`, `child_id`)
 );
 
-CREATE TABLE `airtable`.`display_order` (
+CREATE TABLE `airtable`.`display_orders` (
   `id` int PRIMARY KEY,
   `document_id` int NOT NULL,
-  `order` int NOT NULL DEFAULT 1
+  `order_number` int NOT NULL
 );
 
 ALTER TABLE `airtable`.`document_relations` ADD FOREIGN KEY (`parent_id`) REFERENCES `airtable`.`documents` (`id`);
 
-ALTER TABLE `airtable`.`document_relations` ADD FOREIGN KEY (`chanel_id`) REFERENCES `airtable`.`documents` (`id`);
+ALTER TABLE `airtable`.`document_relations` ADD FOREIGN KEY (`child_id`) REFERENCES `airtable`.`documents` (`id`);
 
-ALTER TABLE `airtable`.`display_order` ADD FOREIGN KEY (`document_id`) REFERENCES `airtable`.`documents` (`id`);
+ALTER TABLE `airtable`.`display_orders` ADD FOREIGN KEY (`document_id`) REFERENCES `airtable`.`documents` (`id`);
