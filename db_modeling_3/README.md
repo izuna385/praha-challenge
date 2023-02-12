@@ -92,8 +92,7 @@ mysql> SELECT * FROM document_relations;
 ```
 mysql> DELETE FROM document_relations
        WHERE child_id IN (SELECT x.id FROM (SELECT child_id AS id FROM document_relations WHERE parent_id = 4) AS x) AND
-       parent_id IN (SELECT y.id FROM (SELECT parent_id AS id FROM document_relations WHERE child_id = 4 AND child_id != parent_id) AS y)
-    -> ;
+       parent_id IN (SELECT y.id FROM (SELECT parent_id AS id FROM document_relations WHERE child_id = 4 AND child_id != parent_id) AS y) ;
 Query OK, 2 rows affected (0.11 sec)
 
 # 付け替えるサブツリー
@@ -119,3 +118,56 @@ Query OK, 3 rows affected (0.05 sec)
 Records: 3  Duplicates: 0  Warnings: 0
 
 ```
+
+# 表示順の変更
+
+## 方針
+
+- ドキュメント側に持たせている display_order をインクリメントする。
+- 更新後、フォルダ 4 の子ノードを取得
+- フォルダ 2 を表示順番 1 に持ってくる場合、それ以降の表示順をインクリメントする。
+- フォルダ 2 を表示順番 2 に持ってくる場合、フォルダ 2 の表示順を 2 にアップデートする。
+
+### 付け替え前
+
+```mysql
+mysql> SELECT * FROM display_orders;
++----+-------------+--------------+
+| id | document_id | order_number |
++----+-------------+--------------+
+|  1 |           1 |            1 |
+|  2 |           2 |            1 |
+|  3 |           3 |            1 |
+|  4 |           4 |            2 |
+|  5 |           5 |            1 |
+|  6 |           6 |            1 |
+|  7 |           7 |            2 |
++----+-------------+--------------+
+7 rows in set (0.04 sec)
+```
+
+### フォルダ 2 をフォルダ 4 の下で表示順 1 に持ってくる場合。
+
+- 付け替えのクエリは、先程と同じなので省略する。
+- 付け替えたあと、表示順をアップデートする。
+
+![img](display_order_example.jpg)
+
+```mysql
+# 同じ階層のフォルダを取得
+
+mysql> SELECT parent_id, child_id FROM document_relations WHERE parent_id = 4 AND parent_id != child_id AND child_id IN (SELECT parent_id FROM document_relations WHERE parent_id != 4 AND parent_id !=
+child_id) GROUP BY parent_id, child_id;
++-----------+----------+
+| parent_id | child_id |
++-----------+----------+
+|         4 |        2 |
+|         4 |        5 |
++-----------+----------+
+2 rows in set (0.02 sec)
+
+mysql>
+
+```
+
+この後に、同じ階層のディレクトリの表示順をアップデートすれば良い。
