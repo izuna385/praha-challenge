@@ -7,19 +7,20 @@ CREATE TABLE `app`.`teams` (
 );
 
 CREATE TABLE `app`.`users` (
-  `id` int,
-  `team_id` varchar(255),
-  `access_token` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`, `team_id`)
+  `id` varchar(255) PRIMARY KEY,
+  `team_id` varchar(255) NOT NULL,
+  `access_token` varchar(255) NOT NULL
 );
 
 CREATE TABLE `app`.`publishers` (
-  `user_id` varchar(255) PRIMARY KEY NOT NULL,
+  `id` varchar(255) PRIMARY KEY NOT NULL,
+  `user_id` varchar(255) NOT NULL,
   `reminder_id` varchar(255) NOT NULL
 );
 
 CREATE TABLE `app`.`recievers` (
-  `user_id` varchar(255) PRIMARY KEY NOT NULL,
+  `id` varchar(255) PRIMARY KEY NOT NULL,
+  `user_id` varchar(255) NOT NULL,
   `reminder_id` varchar(255) NOT NULL
 );
 
@@ -40,6 +41,10 @@ ALTER TABLE `app`.`users` ADD FOREIGN KEY (`team_id`) REFERENCES `app`.`teams` (
 
 ALTER TABLE `app`.`reminders` ADD FOREIGN KEY (`team_id`) REFERENCES `app`.`teams` (`id`);
 
-ALTER TABLE `app`.`reminders` ADD FOREIGN KEY (`publisher_id`) REFERENCES `app`.`publishers` (`user_id`);
+ALTER TABLE `app`.`reminders` ADD FOREIGN KEY (`publisher_id`) REFERENCES `app`.`publishers` (`id`);
 
-ALTER TABLE `app`.`reminders` ADD FOREIGN KEY (`reciever_id`) REFERENCES `app`.`recievers` (`user_id`);
+ALTER TABLE `app`.`reminders` ADD FOREIGN KEY (`reciever_id`) REFERENCES `app`.`recievers` (`id`);
+
+ALTER TABLE `app`.`publishers` ADD FOREIGN KEY (`user_id`) REFERENCES `app`.`users` (`id`);
+
+ALTER TABLE `app`.`recievers` ADD FOREIGN KEY (`user_id`) REFERENCES `app`.`users` (`id`);
